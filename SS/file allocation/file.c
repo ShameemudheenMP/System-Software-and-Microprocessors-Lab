@@ -1,21 +1,29 @@
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
+
 struct file
 {
-    int si;
-    int len;
-    int b[100];
-    struct node *k;
+    int si; // The Starting Index of the file.
+    int len; // Total length of the file.
+    int b[100]; // The blocks in the file.
+    struct node *k; 
 } f[100];
+
 int mem[100], n;
+
 struct node
 {
     int n;
     struct node *next;
 };
+
+//Sequential File Allocation
+//A block k of a file can be accessed by traversing k blocks sequentially (sequential access) 
+//from the starting block of the file via block pointers.
 void seq()
 {
+    //Marks all positions as unoccupied.
     for (int i = 0; i < 100; i++)
     {
         mem[i] = 0;
@@ -28,6 +36,8 @@ void seq()
         printf("\nfile%i", i + 1);
         printf("\nEnter the Starting block : ");
         scanf("%i", &f[i].si);
+        
+        //Checks if the starting block is already occupied.
         if (mem[f[i].si] == 0)
         {
             printf("\nEnter the length : ");
@@ -37,14 +47,18 @@ void seq()
             {
                 if (mem[j] == 1)
                 {
+                    // Each position which should be occupied is checked, whether any other file is already occupying the position.
                     check = 1;
                     break;
                 }
             }
+            
+            //If no other file occupies any of the alloted positions
             if (check == 0)
             {
                 for (int j = f[i].si; j < f[i].si + f[i].len; j++)
-                {
+                { 
+                    // Each position in the file is marked as occupied, such that, no other file can access the storage.
                     mem[j] = 1;
                 }
             }
@@ -68,8 +82,13 @@ void seq()
             printf("\t%i\t", j);
     }
 }
+
+//Indexed File Allocation
+//Instead of maintaining a file allocation table of all the disk pointers,
+//Indexed allocation scheme stores all the disk pointers in one of the blocks called as indexed block.
 void ind()
 {
+     //Marks all positions as unoccupied.
     for (int i = 0; i < 100; i++)
     {
         mem[i] = 0;
@@ -89,6 +108,7 @@ void ind()
         }
         else
         {
+            //If the starting Index is not occupied,
             printf("\nEnter the no: BLOCKS : ");
             scanf("%i", &f[i].len);
             int check = 0;
@@ -116,8 +136,12 @@ void ind()
     }
 }
 
+//Linked List File Allocation
+//Here, Each file is considered as the linked list of disk blocks. 
+//However, the disks blocks allocated to a particular file need not to be contiguous on the disk.
 void lin()
 {
+    //Marks all positions as unoccupied.
     for (int i = 0; i < 100; i++)
     {
         mem[i] = 0;
@@ -210,8 +234,5 @@ int main(int argc, char const *argv[])
             printf("Please input a valid choice.\n");
         }
     }
-    // seq();
-    // ind();
-    // lin();
     return 0;
 }
