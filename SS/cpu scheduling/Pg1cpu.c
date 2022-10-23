@@ -86,6 +86,8 @@ void arrAr()
 	}
 }
 
+
+// First Come First Serve 
 void fcfs()
 {
 	inputProc();
@@ -125,6 +127,7 @@ int bi(int time)
 	return ind;
 }
 
+// Shortest Job First
 void sjf()
 {
 	inputProc();
@@ -181,6 +184,8 @@ int pop()
 	}
 }
 
+
+// Round Robin
 void rr()
 {
 	int tq;
@@ -282,6 +287,7 @@ int pi(int time)
 	return ind;
 }
 
+// Priority Scheduling
 void pr()
 {
 	inputPriProc();
